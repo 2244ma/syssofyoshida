@@ -1,3 +1,4 @@
 language: bash
 script:
   - bash -e ./test.sh
+  - bash ./test_same.sh
