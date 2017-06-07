@@ -1,36 +1,38 @@
 #!/bin/sh
 
-you=0
-n=$1
-m=$2
+tmp=/tmp/$$
 
-if [ $# -lt 2 ]; then
- echo "kazu,tarinai"
+ERROR_EXIT () {
+ echo "$1" >&2 #to err
+ rm -f $tmp-*  #syoryakunotame
  exit 1
-fi
+}
 
-if [ $# -ne 2 ]; then
- echo "requiared 2 numbers"
- exit 1
-fi
+# check input 2 numbers
+echo kazu,tarinai > $tmp-ans
+./17745145.sh 100 > $tmp-err && ERROR_EXIT "we can't script"
+diff $tmp-ans $tmp-err || ERROR_EXIT "err_msg diff"
 
-if [ $1 -eq 0 -o $2 -eq 0 ]; then
- echo "Don't input 0"
- exit 1
-fi
+echo test1 OK
 
-moji=`echo -n $1$2 | sed 's/[^0-9]//g'` 
-if [ -n $moji ]; then
- echo "input numbers,ex 10 100"
- exit 1
-fi
+# check 0 number
+echo "Don't input 0" > $tmp-ans
+./17745145.sh 0 10 > $tmp-err && ERROR_EXIT "we can't script"
+diff $tmp-ans $tmp-err || ERROR_EXIT "17745145 0 correct?"
 
-until [ $m -eq 0 ]
-do
- you=`expr "$n" % "$m"`
- temp=$n
- n=$m
- m=$you
-done
- echo "$n"
- exit 0
+echo test2 OK
+
+# hikisu kazu test
+echo requiared 2 numbers > $tmp-ans
+./17745145.sh 100 200 3 > $tmp-err && ERROR_EXIT "we can't script"
+diff $tmp-ans $tmp-err || ERROR_EXIT "17745145 hikisu correct?"
+
+echo "test3 OK"
+
+# moji check
+# hikisu kazu test
+echo requiared 2 numbers > $tmp-ans
+./17745145.sh 1 2 30 40 > $tmp-err && ERROR_EXIT "we can't script"
+diff $tmp-ans $tmp-err || ERROR_EXIT "17745145 hikisu correct?"
+
+echo "test4 OK"
