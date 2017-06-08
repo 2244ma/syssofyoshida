@@ -1,4 +1,0 @@
-language: bash
-script:
-  - bash -e ./test_same2.sh
-  - bash -e ./test_same.sh
